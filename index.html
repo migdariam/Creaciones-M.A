@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Creaciones M.A</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -124,7 +125,7 @@
     .btn-action {
       background: #000;
       color: #fff;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 12px;
       font-size: 10px;
       font-weight: bold;
@@ -133,8 +134,20 @@
       z-index: 10;
     }
 
-    .top-left { align-self: flex-start; margin-bottom: auto; }
-    .bottom-right { align-self: flex-end; margin-top: auto; }
+    .top-bar-builder {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      margin-bottom: auto;
+    }
+
+    .bottom-bar-builder {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: auto;
+    }
 
     .pulsera-zone {
       width: 100%;
@@ -144,6 +157,9 @@
       justify-content: center;
       position: relative;
       overflow-x: auto;
+      background: #ffffff;
+      padding: 10px;
+      border-radius: 15px;
     }
 
     .thread-line {
@@ -322,11 +338,11 @@
     .nav-btn-text {
       background: white;
       color: #72a5cf;
-      padding: 10px 18px;
-      border-radius: 15px;
+      padding: 8px 12px;
+      border-radius: 12px;
       border: none;
       font-weight: bold;
-      font-size: 11px;
+      font-size: 10px;
       cursor: pointer;
     }
 
@@ -367,7 +383,7 @@
       border: 2px solid #fff;
     }
 
-    /* MODAL */
+    /* MODALES */
     .modal {
       display: none;
       position: absolute;
@@ -386,6 +402,7 @@
       border-radius: 20px;
       padding: 15px;
       overflow-y: auto;
+      text-align: center;
     }
 
     .modal-head {
@@ -400,6 +417,29 @@
 
   <script>
     var CREATOR_WA_PHONE = "584125924843";
+
+    var COLOR_MAP = {
+      '#111111': 'Negro',
+      '#b48bc6': 'Morado',
+      '#e1b899': 'Beige',
+      '#d62886': 'Rosado Fucsia',
+      '#f7c0d0': 'Rosado Claro',
+      '#dbd4c5': 'Crema',
+      '#481f4d': 'Morado Oscuro',
+      '#ea6a77': 'Rojo',
+      '#5a5d64': 'Gris',
+      '#685bc7': 'Azul Lila',
+      '#252b36': 'Azul Oscuro',
+      '#f4df77': 'Amarillo',
+      '#2cb5b5': 'Turquesa',
+      '#392370': 'Violeta',
+      '#d63b82': 'Rosa',
+      '#e6e2dc': 'Blanco',
+      '#ffd700': 'Dorado',
+      '#c0c0c0': 'Plateado',
+      '#000000': 'Negro',
+      '#f8f8f8': 'Blanco'
+    };
 
     var DISCO_COLORS = [
       '#111111', '#b48bc6', '#e1b899', '#d62886', '#f7c0d0', 
@@ -482,19 +522,14 @@
         addB('disco', 1, '#111111');
         addB('balin', 1, '#ffd700');
       } else if(m === 2) {
-        // Bloque 1
         addB('disco', 1, '#111111');
         addB('disco', 2, '#b48bc6');
         addB('disco', 1, '#111111');
-        // Balín 1
         addB('balin', 1, '#ffd700');
-        // Bloque 2
         addB('disco', 1, '#111111');
         addB('disco', 2, '#b48bc6');
         addB('disco', 1, '#111111');
-        // Balín 2
         addB('balin', 1, '#ffd700');
-        // Bloque 3
         addB('disco', 1, '#111111');
         addB('disco', 2, '#b48bc6');
         addB('disco', 1, '#111111');
@@ -532,6 +567,7 @@
       } else if(m === 6) {
         addB('balin', 1, '#ffd700');
         addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
         addB('disco', 2, '#b48bc6');
         addB('disco', 1, '#111111');
         addB('perla', 1, '#000000');
@@ -675,6 +711,68 @@
       alert('¡Gracias! Te gusta la Web App Creaciones M.A 💙');
     }
 
+    function getDesignSummaryText() {
+      var summary = "Pulsera:\n";
+      summary += "• Color de Hilo: " + state.hiloName + "\n";
+      summary += "• Modelo: " + state.model + "\n";
+      summary += "• Piezas elegidas:\n";
+
+      var count = 1;
+      state.beads.forEach(function(b) {
+        if(b.type === 'gap') return;
+        var colorName = COLOR_MAP[b.color] || b.color;
+        if(b.type === 'disco') summary += "  " + count + ". Disco (" + colorName + ")\n";
+        else if(b.type === 'balin') summary += "  " + count + ". Balín (" + colorName + ")\n";
+        else if(b.type === 'perla') summary += "  " + count + ". Perla (" + colorName + ")\n";
+        else if(b.type === 'flor') summary += "  " + count + ". Flor (" + colorName + ")\n";
+        else if(b.type === 'letra') summary += "  " + count + ". Letra (" + ABC[state.letterIndex] + ")\n";
+        count++;
+      });
+
+      return summary;
+    }
+
+    function showDetailsModal() {
+      var summaryText = getDesignSummaryText();
+      alert(summaryText);
+    }
+
+    // BOTÓN COMPARTIR
+    function shareDesign() {
+      var summaryText = getDesignSummaryText();
+      if (navigator.share) {
+        navigator.share({
+          title: 'Mi diseño en Creaciones M.A',
+          text: summaryText
+        }).catch(function(err){});
+      } else {
+        alert(summaryText);
+      }
+    }
+
+    // BOTÓN CAPTURA
+    function takeCapture() {
+      var target = document.getElementById('workspace');
+      var arrows = target.querySelectorAll('.arrow');
+      arrows.forEach(function(a) { a.style.visibility = 'hidden'; });
+
+      html2canvas(target).then(function(canvas) {
+        arrows.forEach(function(a) { a.style.visibility = 'visible'; });
+        var imgData = canvas.toDataURL('image/png');
+        
+        var modalContent = document.getElementById('capContent');
+        modalContent.innerHTML = 
+          '<p style="font-size:11px; color:#333; margin-bottom:10px;"><b>¡Diseño generado!</b><br>Mantén presionada la imagen para guardarla o toma una captura de pantalla y adjúntala por WhatsApp.</p>' +
+          '<img src="' + imgData + '" style="max-width:100%; border:1px solid #ccc; border-radius:10px; margin-bottom:10px;">';
+        
+        document.getElementById('capModal').style.display = 'flex';
+      });
+    }
+
+    function closeCapture() {
+      document.getElementById('capModal').style.display = 'none';
+    }
+
     function saveBracelet() {
       saved.push({ model: state.model, hilo: state.hiloName, letter: ABC[state.letterIndex] });
       alert('¡Pulsera guardada en tu galería!');
@@ -701,15 +799,12 @@
 
     function sendWhatsapp() {
       var userName = document.getElementById('cfgName').value || "Cliente";
-      var userPhone = document.getElementById('cfgPhone').value || "No especificado";
 
-      var txt = "Hola Creaciones M.A, mi nombre es *" + userName + "* (Tel: " + userPhone + ").%0A";
-      txt += "Me gustaría encargar el siguiente diseño:%0A";
-      txt += "- Modelo: N° " + state.model + "%0A";
-      txt += "- Hilo: " + state.hiloName + "%0A";
-      if(state.model === 5) txt += "- Inicial elegida: " + ABC[state.letterIndex] + "%0A";
+      var txt = "Hola Creaciones M.A, mi nombre es *" + userName + "*.\n";
+      txt += "Me gustaría encargar el siguiente diseño:\n\n";
+      txt += getDesignSummaryText();
 
-      window.open('https://wa.me/' + CREATOR_WA_PHONE + '?text=' + txt, '_blank');
+      window.open('https://wa.me/' + CREATOR_WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank');
     }
 
     window.onload = function() {
@@ -740,11 +835,18 @@
 
   <!-- PANTALLA CONSTRUIR -->
   <div class="screen" id="scr-builder">
-    <button class="btn-action top-left" onclick="goScreen('scr-hilos')">COLOR DE HILO:</button>
+    <div class="top-bar-builder">
+      <button class="btn-action" onclick="goScreen('scr-hilos')">HILO</button>
+      <button class="btn-action" onclick="showDetailsModal()">DETALLES</button>
+      <button class="btn-action" onclick="takeCapture()">CAPTURA</button>
+      <button class="btn-action" onclick="shareDesign()">COMPARTIR</button>
+    </div>
     
     <div class="pulsera-zone" id="workspace"></div>
 
-    <button class="btn-action bottom-right" onclick="goScreen('scr-modelos')">MODELO</button>
+    <div class="bottom-bar-builder">
+      <button class="btn-action" onclick="goScreen('scr-modelos')">MODELO</button>
+    </div>
   </div>
 
   <!-- PANTALLA MODELOS -->
@@ -893,10 +995,6 @@
       <input type="text" id="cfgName" placeholder="Escribe tu nombre aquí">
     </div>
     <div class="config-field">
-      <label>• TU NÚMERO DE WHATSAPP</label>
-      <input type="tel" id="cfgPhone" placeholder="Ej: 04141234567">
-    </div>
-    <div class="config-field">
       <label>• COLOR DE FONDO</label>
       <div class="colors-row">
         <div class="dot-color" style="background:#a2cbf7" onclick="setBg('#a2cbf7')"></div>
@@ -915,7 +1013,7 @@
     </div>
     <div class="config-field">
       <label>• AYUDA</label>
-      <button class="btn-action" style="width:100%" onclick="alert('Usa el botón + para armar tu pulsera, cambia colores con las flechas y presiona ENVIAR para pedir por WhatsApp.')">Ver Guía</button>
+      <button class="btn-action" style="width:100%" onclick="alert('Usa las flechas para cambiar los colores, presiona CAPTURA para guardar la imagen o ENVIAR para encargar.')">Ver Guía</button>
     </div>
     <div class="config-field">
       <label>• POLÍTICAS DE PRIVACIDAD</label>
@@ -940,13 +1038,25 @@
 </div>
 
 <!-- MODAL GALERÍA -->
-<div class="modal" id="galModal">
+  <div class="modal" id="galModal">
   <div class="modal-box">
     <div class="modal-head">
       <span>GUARDADOS</span>
       <span style="cursor:pointer" onclick="closeGallery()">✖</span>
     </div>
     <div id="galContent" style="font-size:12px; color:#555;">No hay pulseras guardadas.</div>
+  </div>
+</div>
+
+<!-- MODAL CAPTURA DE PANTALLA -->
+<div class="modal" id="capModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>IMAGEN DE DISEÑO</span>
+      <span style="cursor:pointer" onclick="closeCapture()">✖</span>
+    </div>
+    <div id="capContent"></div>
+    <button class="btn-action" style="margin-top:5px;" onclick="sendWhatsapp()">IR A WHATSAPP</button>
   </div>
 </div>
 
