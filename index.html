@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Creaciones M.A</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #dbe9f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .app-container {
+      width: 100%;
+      max-width: 360px;
+      height: 640px;
+      background-color: #a2cbf7;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .photo-btn {
+      width: 45px;
+      height: 45px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      overflow: hidden;
+      border: 2px solid #fff;
+    }
+
+    .photo-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-title {
+      flex: 1;
+      background: white;
+      border-radius: 20px;
+      padding: 8px;
+      text-align: center;
+      color: #72a5cf;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* PANTALLAS */
+    .screen {
+      display: none;
+      flex: 1;
+      margin: 10px 0;
+      background: white;
+      border-radius: 40px / 30px;
+      padding: 20px 15px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-y: auto;
+      z-index: 5;
+      position: relative;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* INICIO */
+    #scr-home {
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .home-sub {
+      color: #72a5cf;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+
+    .home-main {
+      color: #5b9ed6;
+      font-size: 26px;
+      text-align: center;
+      font-family: monospace;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+
+    /* CONSTRUCTOR */
+    .btn-action {
+      background: #000;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .top-left { align-self: flex-start; margin-bottom: auto; }
+    .bottom-right { align-self: flex-end; margin-top: auto; }
+
+    .pulsera-zone {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: auto;
+    }
+
+    .thread-line {
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: #000;
+      z-index: 1;
+    }
+
+    .beads-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      z-index: 2;
+    }
+
+    .bead-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .arrow {
+      background: none;
+      border: none;
+      color: #72a5cf;
+      font-size: 10px;
+      padding: 2px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .space-gap {
+      width: 10px;
+      flex-shrink: 0;
+    }
+
+    /* PIEZAS Y FORMAS */
+    .shape-disco {
+      width: 5px;
+      height: 24px;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+
+    .shape-balin {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .shape-perla {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .flower-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .flower-petals {
+      display: grid;
+      grid-template-columns: repeat(2, 6px);
+      gap: 2px;
+      margin-top: 2px;
+    }
+
+    .flower-petal {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .shape-letra {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 10px;
+      color: #000000;
+      flex-shrink: 0;
+    }
+
+    /* TARJETAS DE MODELOS */
+    .models-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .model-card {
+      background: #b2cbe0;
+      border-radius: 16px;
+      padding: 14px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .model-preview-line {
+      position: absolute;
+      width: 85%;
+      height: 3px;
+      background: #000;
+      z-index: 1;
+    }
+
+    .model-preview-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      z-index: 2;
+    }
+
+    /* LISTAS */
+    .list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .list-item {
+      background: #f0f4f8;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #4a7fa7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    /* NAVEGACIÓN */
+    .nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .nav-icon {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      color: #72a5cf;
+      border: none;
+    }
+
+    .nav-btn-text {
+      background: white;
+      color: #72a5cf;
+      padding: 10px 18px;
+      border-radius: 15px;
+      border: none;
+      font-weight: bold;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    /* CONFIGURACIÓN */
+    .config-field {
+      width: 100%;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+
+    .config-field label {
+      display: block;
+      color: #5b9ed6;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .config-field input {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 12px;
+    }
+
+    .colors-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .dot-color {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-height: 80%;
+      border-radius: 20px;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      color: #72a5cf;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+  </style>
+
+  <script>
+    var CREATOR_WA_PHONE = "584125924843";
+
+    var DISCO_COLORS = [
+      '#111111', '#b48bc6', '#e1b899', '#d62886', '#f7c0d0', 
+      '#dbd4c5', '#481f4d', '#ea6a77', '#5a5d64', '#685bc7', 
+      '#252b36', '#f4df77', '#2cb5b5', '#392370', '#d63b82', 
+      '#e6e2dc'
+    ];
+
+    var BALIN_COLORS = ['#ffd700', '#c0c0c0'];
+    var PERLA_COLORS = ['#000000', '#f8f8f8'];
+    var FLOR_COLORS = ['#c0c0c0', '#ffd700'];
+    
+    var ABC = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+    var HILOS = [
+      { name: 'Negro', hex: '#000000' },
+      { name: 'Blanco', hex: '#ffffff' },
+      { name: 'Gris', hex: '#888888' },
+      { name: 'Rojo', hex: '#ff0000' },
+      { name: 'Azul Celeste', hex: '#00bfff' },
+      { name: 'Marrón', hex: '#5c4033' },
+      { name: 'Dorado', hex: '#d4af37' },
+      { name: 'Morado', hex: '#8a2be2' }
+    ];
+
+    var state = {
+      hiloHex: '#000000',
+      hiloName: 'Negro',
+      model: 1,
+      beads: [],
+      letterIndex: 12
+    };
+
+    var saved = [];
+
+    function goScreen(id) {
+      var screens = document.querySelectorAll('.screen');
+      for (var i = 0; i < screens.length; i++) {
+        screens[i].classList.remove('active');
+      }
+      var target = document.getElementById(id);
+      if(target) target.classList.add('active');
+
+      var mainNav = document.getElementById('navMain');
+      var buildNav = document.getElementById('navBuild');
+      var title = document.getElementById('headTitle');
+
+      if(id === 'scr-builder') {
+        if(mainNav) mainNav.style.display = 'none';
+        if(buildNav) buildNav.style.display = 'flex';
+        if(title) title.innerText = 'CONSTRUIR';
+      } else {
+        if(mainNav) mainNav.style.display = 'flex';
+        if(buildNav) buildNav.style.display = 'none';
+        if(title) {
+          if(id === 'scr-modelos') title.innerText = 'MODELO';
+          else if(id === 'scr-hilos') title.innerText = 'HILO COLOR';
+          else if(id === 'scr-config') title.innerText = 'CONFIGURACIÓN';
+          else title.innerText = 'CREACIONES M.A';
+        }
+      }
+    }
+
+    function addB(type, count, color) {
+      for(var i=0; i<count; i++) state.beads.push({ type: type, color: color });
+    }
+
+    function pickModel(m) {
+      state.model = m;
+      state.beads = [];
+      
+      if(m === 1) {
+        addB('balin', 1, '#ffd700');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('balin', 1, '#ffd700');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('balin', 1, '#ffd700');
+      } else if(m === 2) {
+        // Bloque 1
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        // Balín 1
+        addB('balin', 1, '#ffd700');
+        // Bloque 2
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        // Balín 2
+        addB('balin', 1, '#ffd700');
+        // Bloque 3
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+      } else if(m === 3) {
+        for(var k=0; k<4; k++) {
+          addB('disco', 1, '#111111');
+          addB('disco', 2, '#b48bc6');
+          addB('disco', 1, '#111111');
+          if(k < 3) addB('gap', 1, 'none');
+        }
+      } else if(m === 4) {
+        addB('balin', 1, '#ffd700');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('gap', 1, 'none');
+        addB('disco', 1, '#111111');
+        addB('flor', 1, '#c0c0c0');
+        addB('disco', 1, '#111111');
+        addB('gap', 1, 'none');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('balin', 1, '#ffd700');
+      } else if(m === 5) {
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('balin', 1, '#ffd700');
+        addB('letra', 1, '#ffffff');
+        addB('balin', 1, '#ffd700');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+      } else if(m === 6) {
+        addB('balin', 1, '#ffd700');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('perla', 1, '#000000');
+        addB('disco', 1, '#111111');
+        addB('disco', 2, '#b48bc6');
+        addB('disco', 1, '#111111');
+        addB('balin', 1, '#ffd700');
+      }
+      renderWork();
+      goScreen('scr-builder');
+    }
+
+    function renderWork() {
+      var ws = document.getElementById('workspace');
+      if(!ws) return;
+      ws.innerHTML = '';
+
+      var line = document.createElement('div');
+      line.className = 'thread-line';
+      line.style.background = state.hiloHex;
+      ws.appendChild(line);
+
+      var row = document.createElement('div');
+      row.className = 'beads-row';
+
+      state.beads.forEach(function(b, i) {
+        if(b.type === 'gap') {
+          var gap = document.createElement('div');
+          gap.className = 'space-gap';
+          row.appendChild(gap);
+          return;
+        }
+
+        var col = document.createElement('div');
+        col.className = 'bead-col';
+
+        var up = document.createElement('button');
+        up.className = 'arrow'; 
+        up.innerText = '▲';
+        up.onclick = function(e) { e.stopPropagation(); rotateItem(i, 1); };
+
+        var elem = document.createElement('div');
+        if(b.type === 'disco') {
+          elem.className = 'shape-disco';
+          elem.style.background = b.color;
+        } else if(b.type === 'balin') {
+          elem.className = 'shape-balin';
+          elem.style.background = b.color;
+        } else if(b.type === 'perla') {
+          elem.className = 'shape-perla';
+          elem.style.background = b.color;
+        } else if(b.type === 'flor') {
+          elem.className = 'flower-container';
+          elem.innerHTML = '<div class="shape-disco" style="background:' + b.color + '"></div>' +
+            '<div class="flower-petals">' +
+            '<div class="flower-petal" style="background:' + b.color + '"></div>' +
+            '<div class="flower-petal" style="background:' + b.color + '"></div>' +
+            '<div class="flower-petal" style="background:' + b.color + '"></div>' +
+            '<div class="flower-petal" style="background:' + b.color + '"></div>' +
+            '</div>';
+        } else if(b.type === 'letra') {
+          elem.className = 'shape-letra';
+          elem.innerText = ABC[state.letterIndex];
+        }
+
+        var dn = document.createElement('button');
+        dn.className = 'arrow'; 
+        dn.innerText = '▼';
+        dn.onclick = function(e) { e.stopPropagation(); rotateItem(i, -1); };
+
+        col.appendChild(up);
+        col.appendChild(elem);
+        col.appendChild(dn);
+        row.appendChild(col);
+      });
+
+      ws.appendChild(row);
+    }
+
+    function rotateItem(i, dir) {
+      var b = state.beads[i];
+
+      if(b.type === 'letra') {
+        state.letterIndex = (state.letterIndex + dir + ABC.length) % ABC.length;
+        renderWork();
+        return;
+      }
+
+      var list = DISCO_COLORS;
+      if(b.type === 'balin') list = BALIN_COLORS;
+      if(b.type === 'perla') list = PERLA_COLORS;
+      if(b.type === 'flor') list = FLOR_COLORS;
+
+      var idx = list.indexOf(b.color);
+      if(idx === -1) idx = 0;
+      idx = (idx + dir + list.length) % list.length;
+      b.color = list[idx];
+      renderWork();
+    }
+
+    function initHilos() {
+      var el = document.getElementById('hiloList');
+      if(!el) return;
+      el.innerHTML = '';
+      HILOS.forEach(function(h) {
+        var item = document.createElement('div');
+        item.className = 'list-item';
+        item.innerHTML = '<span>' + h.name + '</span><div style="width:30px;height:4px;background:' + h.hex + '"></div>';
+        item.onclick = function() {
+          state.hiloHex = h.hex;
+          state.hiloName = h.name;
+          renderWork();
+          goScreen('scr-builder');
+        };
+        el.appendChild(item);
+      });
+    }
+
+    function setUserPhoto(e) {
+      var r = new FileReader();
+      r.onload = function() {
+        document.getElementById('userImg').src = r.result;
+        document.getElementById('userImg').style.display = 'block';
+        document.getElementById('camIcon').style.display = 'none';
+      };
+      if(e.target.files[0]) r.readAsDataURL(e.target.files[0]);
+    }
+
+    function setBg(c) {
+      document.getElementById('app').style.backgroundColor = c;
+    }
+
+    function toggleDark() {
+      var screens = document.querySelectorAll('.screen');
+      screens.forEach(function(s) {
+        s.style.background = s.style.background === 'rgb(34, 34, 34)' ? '#fff' : '#222';
+      });
+    }
+
+    function likeApp() {
+      alert('¡Gracias! Te gusta la Web App Creaciones M.A 💙');
+    }
+
+    function saveBracelet() {
+      saved.push({ model: state.model, hilo: state.hiloName, letter: ABC[state.letterIndex] });
+      alert('¡Pulsera guardada en tu galería!');
+    }
+
+    function openGallery() {
+      var c = document.getElementById('galContent');
+      if(!c) return;
+      if(saved.length === 0) {
+        c.innerHTML = 'No hay pulseras guardadas.';
+      } else {
+        c.innerHTML = saved.map(function(s, idx) {
+          return '<div style="padding:8px; border-bottom:1px solid #eee;">' +
+            '<b>Diseño ' + (idx + 1) + '</b> - Modelo ' + s.model + ' | Hilo: ' + s.hilo + 
+            (s.model === 5 ? ' | Letra: ' + s.letter : '') + '</div>';
+        }).join('');
+      }
+      document.getElementById('galModal').style.display = 'flex';
+    }
+
+    function closeGallery() {
+      document.getElementById('galModal').style.display = 'none';
+    }
+
+    function sendWhatsapp() {
+      var userName = document.getElementById('cfgName').value || "Cliente";
+      var userPhone = document.getElementById('cfgPhone').value || "No especificado";
+
+      var txt = "Hola Creaciones M.A, mi nombre es *" + userName + "* (Tel: " + userPhone + ").%0A";
+      txt += "Me gustaría encargar el siguiente diseño:%0A";
+      txt += "- Modelo: N° " + state.model + "%0A";
+      txt += "- Hilo: " + state.hiloName + "%0A";
+      if(state.model === 5) txt += "- Inicial elegida: " + ABC[state.letterIndex] + "%0A";
+
+      window.open('https://wa.me/' + CREATOR_WA_PHONE + '?text=' + txt, '_blank');
+    }
+
+    window.onload = function() {
+      initHilos();
+      pickModel(1);
+    };
+  </script>
+</head>
+<body>
+
+<div class="app-container" id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <label for="imgUp" class="photo-btn">
+      <span id="camIcon">📷</span>
+      <img id="userImg" style="display:none;" />
+    </label>
+    <input type="file" id="imgUp" accept="image/*" style="display:none;" onchange="setUserPhoto(event)">
+    <div class="header-title" id="headTitle">CREACIONES M.A</div>
+  </div>
+
+  <!-- PANTALLA INICIO -->
+  <div class="screen active" id="scr-home">
+    <div class="home-sub">PEQUEÑOS DETALLES</div>
+    <div class="home-main">GRANDES<br>RECUERDOS</div>
+  </div>
+
+  <!-- PANTALLA CONSTRUIR -->
+  <div class="screen" id="scr-builder">
+    <button class="btn-action top-left" onclick="goScreen('scr-hilos')">COLOR DE HILO:</button>
+    
+    <div class="pulsera-zone" id="workspace"></div>
+
+    <button class="btn-action bottom-right" onclick="goScreen('scr-modelos')">MODELO</button>
+  </div>
+
+  <!-- PANTALLA MODELOS -->
+  <div class="screen" id="scr-modelos">
+    <div class="models-container">
+      
+      <!-- MODELO 1 -->
+      <div class="model-card" onclick="pickModel(1)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+        </div>
+      </div>
+
+      <!-- MODELO 2 -->
+      <div class="model-card" onclick="pickModel(2)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+        </div>
+      </div>
+
+      <!-- MODELO 3 -->
+      <div class="model-card" onclick="pickModel(3)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="space-gap"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="space-gap"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="space-gap"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+        </div>
+      </div>
+
+      <!-- MODELO 4 -->
+      <div class="model-card" onclick="pickModel(4)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="space-gap"></div>
+          <div class="flower-container">
+            <div class="shape-disco" style="background:#c0c0c0"></div>
+            <div class="flower-petals">
+              <div class="flower-petal" style="background:#c0c0c0"></div>
+              <div class="flower-petal" style="background:#c0c0c0"></div>
+              <div class="flower-petal" style="background:#c0c0c0"></div>
+              <div class="flower-petal" style="background:#c0c0c0"></div>
+            </div>
+          </div>
+          <div class="space-gap"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+        </div>
+      </div>
+
+      <!-- MODELO 5 -->
+      <div class="model-card" onclick="pickModel(5)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-letra">M</div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+        </div>
+      </div>
+
+      <!-- MODELO 6 -->
+      <div class="model-card" onclick="pickModel(6)">
+        <div class="model-preview-line"></div>
+        <div class="model-preview-row">
+          <div class="shape-balin" style="background:#ffd700"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-perla" style="background:#000"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#b48bc6"></div>
+          <div class="shape-disco" style="background:#111"></div>
+          <div class="shape-balin" style="background:#ffd700"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PANTALLA HILOS -->
+  <div class="screen" id="scr-hilos">
+    <div class="list" id="hiloList"></div>
+  </div>
+
+  <!-- PANTALLA CONFIGURACIÓN -->
+  <div class="screen" id="scr-config">
+    <div class="config-field">
+      <label>• TU NOMBRE Y APELLIDO</label>
+      <input type="text" id="cfgName" placeholder="Escribe tu nombre aquí">
+    </div>
+    <div class="config-field">
+      <label>• TU NÚMERO DE WHATSAPP</label>
+      <input type="tel" id="cfgPhone" placeholder="Ej: 04141234567">
+    </div>
+    <div class="config-field">
+      <label>• COLOR DE FONDO</label>
+      <div class="colors-row">
+        <div class="dot-color" style="background:#a2cbf7" onclick="setBg('#a2cbf7')"></div>
+        <div class="dot-color" style="background:#ffb7c5" onclick="setBg('#ffb7c5')"></div>
+        <div class="dot-color" style="background:#c7ceea" onclick="setBg('#c7ceea')"></div>
+        <div class="dot-color" style="background:#b5ead7" onclick="setBg('#b5ead7')"></div>
+      </div>
+    </div>
+    <div class="config-field">
+      <label>• MODO OSCURO</label>
+      <button class="btn-action" style="width:100%" onclick="toggleDark()">Alternar Modo</button>
+    </div>
+    <div class="config-field">
+      <label>• OPINIÓN</label>
+      <button class="btn-action" style="width:100%" onclick="alert('¡Gracias por tu comentario!')">Enviar Opinión</button>
+    </div>
+    <div class="config-field">
+      <label>• AYUDA</label>
+      <button class="btn-action" style="width:100%" onclick="alert('Usa el botón + para armar tu pulsera, cambia colores con las flechas y presiona ENVIAR para pedir por WhatsApp.')">Ver Guía</button>
+    </div>
+    <div class="config-field">
+      <label>• POLÍTICAS DE PRIVACIDAD</label>
+      <button class="btn-action" style="width:100%" onclick="alert('Tus datos se guardan solo localmente.')">Ver Políticas</button>
+    </div>
+  </div>
+
+  <!-- BARRAS INFERIORES -->
+  <div class="nav" id="navMain">
+    <button class="nav-icon" onclick="goScreen('scr-config')">⚙️</button>
+    <button class="nav-icon" onclick="goScreen('scr-builder')">➕</button>
+    <button class="nav-icon" onclick="openGallery()">🖼️</button>
+    <button class="nav-icon" id="likeBtn" onclick="likeApp()">💙</button>
+  </div>
+
+  <div class="nav" id="navBuild" style="display:none;">
+    <button class="nav-btn-text" onclick="goScreen('scr-home')">◄</button>
+    <button class="nav-btn-text" onclick="saveBracelet()">GUARDAR</button>
+    <button class="nav-btn-text" onclick="sendWhatsapp()">ENVIAR</button>
+  </div>
+
+</div>
+
+<!-- MODAL GALERÍA -->
+<div class="modal" id="galModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span>GUARDADOS</span>
+      <span style="cursor:pointer" onclick="closeGallery()">✖</span>
+    </div>
+    <div id="galContent" style="font-size:12px; color:#555;">No hay pulseras guardadas.</div>
+  </div>
+</div>
+
+</body>
+</html>
